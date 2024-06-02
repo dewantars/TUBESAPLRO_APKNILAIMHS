@@ -469,9 +469,10 @@ func menampilkanData(A *tabMhs, n *int) {
 		sortSks(*&A, *n)
 	case 7:
 		sortSks(*&A, *n)
-		fmt.Println("Masukkan jumlah sks yang ingin dicari")
+		fmt.Println("Masukkan sks yang ingin dicari")
 		fmt.Scan(&x)
 		fmt.Println(binarySearch(*A, *n, x))
+		menampilkanData(*&A, *&n)
 	case 8:
 		inputMenu(*&A, *&n)
 	default:
@@ -497,7 +498,7 @@ func cetakDataMhs(A tabMhs, n int) {
 	// IS. A terdefinisi sebagai data mahasiswa dan n terdefinisi sebagai banyaknya mahasiswa
 	// FS. Menampilkan seluruh data mahasiswa kecuali nilai
 	fmt.Println("Data mahasiswa: ")
-	fmt.Println("NAMA  NIM  KELAS  PRODI")
+	fmt.Println("NAMA  ID MAHASISWA  KELAS  PRODI")
 	for i := 0; i < n; i++{
 		fmt.Println(A[i].nama, A[i].nim, A[i].kelas, A[i].prodi)
 	}
