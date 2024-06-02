@@ -662,7 +662,7 @@ func binarySearch(A tabMhs, n int, x int) bool {
 	var ketemu bool
 	var mid, right, left int
 
-	x = x*3
+	x = x/3
 	ketemu = false
 	right = n
 	left = 0
