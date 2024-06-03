@@ -456,20 +456,20 @@ func menampilkanData(A *tabMhs, n *int) {
 	fmt.Scan(&pilihan)
 	switch pilihan {
 	case 1:
-		cetakDataMhs(*A, *n)
+		cetakDataMhs(*&A, *&n)
 	case 2:
-		cetakNilaiMhs(*A, *n)
+		cetakNilaiMhs(*&A, *&n)
 	case 3:
-		searchMhs(*A, *n)
+		searchMhs(*&A, *&n)
 	case 4:
-		searchNamaMatkul(*A, *n)
+		searchNamaMatkul(*&A, *&n)
 	case 5:
-		sortIp(*&A, *n)
+		sortIp(*&A, *&n)
 	case 6:
-		sortSks(*&A, *n)
+		sortSks(*&A, *&n)
 	case 7:
-		sortSks(*&A, *n)
-		fmt.Println("Masukkan sks yang ingin dicari")
+		sortSks(*&A, *&n)
+		fmt.Println("Masukkan jumlah sks yang ingin dicari")
 		fmt.Scan(&x)
 		fmt.Println(binarySearch(*A, *n, x))
 		menampilkanData(*&A, *&n)
@@ -494,18 +494,18 @@ func menuCetak() {
 	fmt.Println("===========================================")
 }
 
-func cetakDataMhs(A tabMhs, n int) {
+func cetakDataMhs(A *tabMhs, n *int) {
 	// IS. A terdefinisi sebagai data mahasiswa dan n terdefinisi sebagai banyaknya mahasiswa
 	// FS. Menampilkan seluruh data mahasiswa kecuali nilai
 	fmt.Println("Data mahasiswa: ")
-	fmt.Println("NAMA  ID MAHASISWA  KELAS  PRODI")
-	for i := 0; i < n; i++{
+	fmt.Println("NAMA  NIM  KELAS  PRODI")
+	for i := 0; i < *n; i++{
 		fmt.Println(A[i].nama, A[i].nim, A[i].kelas, A[i].prodi)
 	}
-	menampilkanData(&A, &n)
+	menampilkanData(*&A, *&n)
 }
 
-func cetakNilaiMhs(A tabMhs, n int) {
+func cetakNilaiMhs(A *tabMhs, n *int) {
 	// IS. A terdefinisi sebagai data mahasiswa dan n terdefinisi sebagai banyaknya mahasiswa
 	// FS. Menampilkan nilai mahasiswa dari satu orang mahasiswa
 	var x string
@@ -513,11 +513,11 @@ func cetakNilaiMhs(A tabMhs, n int) {
 	var j int
 	fmt.Println("Masukkan id mahasiswa")
 	fmt.Scan(&x)
-	idx = SearchId(A, n, x)
+	idx = SearchId(*A, *n, x)
 	for idx == -1{
 		fmt.Println("Masukkan tidak valid. Silahkan masukkan kembali.")
 		fmt.Scan(&x)
-		idx = SearchId(A, n, x)
+		idx = SearchId(*A, *n, x)
 	}
 	j = A[idx].j
 	fmt.Println("Transkrip nilai mahasiswa", A[idx].nama)
@@ -525,10 +525,10 @@ func cetakNilaiMhs(A tabMhs, n int) {
 		fmt.Println(A[idx].matkul[i].matakuliah, A[idx].matkul[i].quiz, A[idx].matkul[i].UTS, A[idx].matkul[i].UAS, A[idx].matkul[i].total, A[idx].matkul[i].grade)
 	}
 	fmt.Println("IP", A[idx].ip)
-	menampilkanData(&A, &n)
+	menampilkanData(*&A, *&n)
 }
 
-func searchNamaMatkul(A tabMhs, n int) {
+func searchNamaMatkul(A *tabMhs, n *int) {
 	// IS. A terdefinisi sebagai data mahasiswa dan n terdefinisi sebagai banyaknya mahasiswa
 	// FS. Menampilkan nama matakuliah dari seorang mahasiswa yang dicari
 	var idx int
@@ -536,16 +536,16 @@ func searchNamaMatkul(A tabMhs, n int) {
 
 	fmt.Println("Masukkan ID Mahasiswa")
 	fmt.Scan(&x)
-	idx = SearchId(A, n, x)
+	idx = SearchId(*A, *n, x)
 	fmt.Println("Mata kuliah yang diambil oleh", A[idx].nama, "adalah")
-	for i:= 0; i<n; i++{
+	for i:= 0; i<*n; i++{
 		fmt.Println(A[idx].matkul[i].matakuliah)
 	}
-	menampilkanData(&A, &n)
+	menampilkanData(*&A, *&n)
 }
 
 
-func searchMhs(A tabMhs, n int) {
+func searchMhs(A *tabMhs, n *int) {
 	// IS. A terdefinisi sebagai data mahasiswa dan n terdefinisi sebagai banyaknya mahasiswa
 	// FS. Menampilkan nama mahasiswa dari nama matakuliah yang dicari
 	var matkul string
@@ -554,14 +554,14 @@ func searchMhs(A tabMhs, n int) {
 	fmt.Println("Masukkan nama mata kuliahnya")
 	fmt.Scan(&matkul)
 	fmt.Println("Nama mahasiswa yang mengambil mata kuliah", matkul, "adalah")
-	for i=0; i<n; i++{
+	for i=0; i<*n; i++{
 		for b = 0; b<A[i].j; b++{
 			if matkul == A[i].matkul[b].matakuliah{
 				fmt.Println(A[i].nama)
 			}
 		}
 	}
-	menampilkanData(&A, &n)
+	menampilkanData(*&A, *&n)
 }
 
 func jumlahIp(A *tabMhs, n int) {
@@ -595,16 +595,16 @@ func jumlahIp(A *tabMhs, n int) {
 	
 }
 
-func sortIp(A *tabMhs, n int) {
+func sortIp(A *tabMhs, n *int) {
 	// IS. A terdefinisi sebagai data mahasiswa dan n terdefinisi sebagai banyaknya mahasiswa
 	// FS. Mengurutkan ip pada array A menggunakan selection sort (descending) dan menampilkannya ke layar
 	var pass, max, i, a int
 	var temp mahasiswa
 
-	pass = n-1
+	pass = *n-1
 	for i = 0; i<pass; i++{
 		max = i
-		for a = i + 1; a<n; a++{
+		for a = i + 1; a<*n; a++{
 			if A[max].ip < A[a].ip{
 				max = a
 			}
@@ -615,8 +615,8 @@ func sortIp(A *tabMhs, n int) {
 		A[max] = temp
 	}
 	fmt.Println("Sort Berhasil")
-	cetakIp(*A, n)
-	menampilkanData(*&A, &n)
+	cetakIp(*A, *n)
+	menampilkanData(*&A, *&n)
 }
 
 func cetakIp(A tabMhs, n int) {
@@ -628,13 +628,13 @@ func cetakIp(A tabMhs, n int) {
 }
 
 
-func sortSks(A *tabMhs, n int) {
+func sortSks(A *tabMhs, n *int) {
 	// IS. A terdefinisi sebagai data mahasiswa dan n terdefinisi sebagai banyaknya mahasiswa
 	// FS. Mengurutkan data mahasiswa berdasarkan sks dari yang terkecil (ascending) menggunakan insertion sort dan menampilkannya ke layar
 	var i, j int
 	var temp mahasiswa
 	
-	for i = 1; i<n; i++{
+	for i = 1; i<*n; i++{
 		temp = A[i]
 		j = i - 1
 		for temp.j < A[j].j && j >= 0{
@@ -645,11 +645,13 @@ func sortSks(A *tabMhs, n int) {
 	}
 
 	fmt.Println("Sort Berhasil")
-	cetakSks(*A, n)
-	menampilkanData(*&A, &n)
+	cetakSks(*A, *n)
+	menampilkanData(*&A, *&n)
 }
 
 func cetakSks(A tabMhs, n int) {
+	// IS. A terdefinisi sebagai data mahasiswa dan n terdefinisi sebagai banyaknya mahasiswa
+	// FS. Menampilkan sks dari array A yang sudah diurutkan
 	var i int
 	fmt.Println("ID Mahasiswa, Nama Mahasiswa dan Jumlah SKS")
 	for i = 0; i<n; i++{
@@ -664,7 +666,7 @@ func binarySearch(A tabMhs, n int, x int) bool {
 
 	x = x/3
 	ketemu = false
-	right = n
+	right = n-1
 	left = 0
 	for ketemu == false && left <= right{
 		mid = (right + left) / 2
