@@ -127,8 +127,8 @@ func nilaiMhs(A *tabMhs, n *int) {
 	}
 	fmt.Println("Masukkan jumlah mata kuliah")
 	fmt.Scan(&A[index].j)
+	fmt.Println("Masukkan nama matakuliah, nilai quiz, nilai UTS dan nilai UAS")
 	for i = 0; i<A[index].j; i++{
-		fmt.Println("Masukkan nama matakuliah, nilai quiz, nilai UTS dan nilai UAS")
 		fmt.Scan(&A[index].matkul[i].matakuliah, &A[index].matkul[i].quiz, &A[index].matkul[i].UTS, &A[index].matkul[i].UAS)
 		A[index].matkul[i].total = A[index].matkul[i].quiz+A[index].matkul[i].UTS+A[index].matkul[i].UAS
 		var rata int
@@ -468,7 +468,6 @@ func menampilkanData(A *tabMhs, n *int) {
 	case 6:
 		sortSks(*&A, *&n)
 	case 7:
-		sortSks(*&A, *&n)
 		fmt.Println("Masukkan jumlah sks yang ingin dicari")
 		fmt.Scan(&x)
 		fmt.Println(binarySearch(*A, *n, x))
@@ -538,7 +537,7 @@ func searchNamaMatkul(A *tabMhs, n *int) {
 	fmt.Scan(&x)
 	idx = SearchId(*A, *n, x)
 	fmt.Println("Mata kuliah yang diambil oleh", A[idx].nama, "adalah")
-	for i:= 0; i<*n; i++{
+	for i:= 0; i<A[idx].j; i++{
 		fmt.Println(A[idx].matkul[i].matakuliah)
 	}
 	menampilkanData(*&A, *&n)
@@ -570,8 +569,9 @@ func jumlahIp(A *tabMhs, n int) {
 	var i, j, p int
 	var jumlah float64
 	
-	jumlah = 0
+	
 	for i = 0; i<n; i++{
+		jumlah = 0
 		p = A[i].j
 		for j = 0; j<p; j++{
 			if A[i].matkul[j].grade == "A"{
@@ -590,6 +590,7 @@ func jumlahIp(A *tabMhs, n int) {
 				jumlah += 0.0
 			}
 		}
+		
 		A[i].ip = jumlah / float64(A[i].j)
 	}
 	
@@ -637,7 +638,7 @@ func sortSks(A *tabMhs, n *int) {
 	for i = 1; i<*n; i++{
 		temp = A[i]
 		j = i - 1
-		for temp.j < A[j].j && j >= 0{
+		for j >= 0 && temp.j < A[j].j {
 			A[j+1] = A[j]
 			j=j-1
 		}
@@ -655,7 +656,7 @@ func cetakSks(A tabMhs, n int) {
 	var i int
 	fmt.Println("ID Mahasiswa, Nama Mahasiswa dan Jumlah SKS")
 	for i = 0; i<n; i++{
-		fmt.Println(A[i].nim, A[i].nama, A[i].j*3)
+		fmt.Println(A[i].nim, A[i].nama, A[i].j * 3)
 	}
 }
 
